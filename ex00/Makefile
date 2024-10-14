@@ -9,7 +9,7 @@ OBJ_DIR	:= .build
 OBJS	:= $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 CC		:= c++
-CFLAGS	:= -Wall -Werror -Wextra -Wpedantic -Wunreachable-code -Wuninitialized -std=c++11
+CFLAGS	:= -Wall -Werror -Wextra -Wpedantic -Wunreachable-code -Wuninitialized -std=c++11 -MMD -MP
 RM		:= rm -rf
 
 DEBUG	?= 1
@@ -39,6 +39,8 @@ fclean:
 re:
 	$(MAKE) fclean
 	$(MAKE) all
+
+-include $(OBJS:.o=.d)
 
 .PHONY: all clean fclean re
 
