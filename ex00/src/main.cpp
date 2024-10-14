@@ -3,13 +3,12 @@
 
 int	main(void)
 {
+	Zombie	*pZombie;
 	randomChump("peter");
 
-	Zombie	*pZombie = new Zombie("heaper");
+	pZombie = new Zombie("heaper");
 	pZombie->announce();
 	delete pZombie;
-
-	// Zombie *arrZombie = new Zombie[10];
 
 	return (0);
 }
