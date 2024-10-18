@@ -1,5 +1,6 @@
 
 #include "../inc/colors.hpp"
+#include <ios>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -32,6 +33,14 @@ static std::string	readFile(std::fstream &inFile)
 {
 	std::ostringstream	fileContent;
 
+	// check for empty file
+	inFile.seekg(0, std::ios_base::end);
+	if (inFile.tellg() == 0)
+	{
+		return "";
+	}
+	inFile.seekg(0, std::ios_base::beg);
+
 	fileContent << inFile.rdbuf();
 	if (inFile.fail())
 		throw std::ios_base::failure("Error when reading from file");
@@ -63,6 +72,7 @@ int	main(int argc, char *argv[])
 	std::fstream	inFile;
 	std::fstream	outFile;
 	std::string		fileContent;
+	std::string		s1, s2;
 
 	if (argc != 4) {
 		std::cerr << RED << "Usage: ./cheapSed <filename> <s1> <s2>" << RESET << std::endl;
@@ -70,6 +80,8 @@ int	main(int argc, char *argv[])
 	}
 
 	inFileName = argv[1];
+	s1 = argv[2];
+	s2 = argv[3];
 	outFileName = inFileName + ".replace";
 	try
 	{
@@ -79,10 +91,11 @@ int	main(int argc, char *argv[])
 	}
 	catch (std::ios_base::failure &e)
 	{
-		std::cerr << RED << e.what() << std::endl;
+		std::cerr << RED << e.what() << RESET << std::endl;
 		return (1);
 	}
-	replaceStrings(fileContent, argv[2], argv[3]);
+	if (!s1.empty() && s1 != s2)
+		replaceStrings(fileContent, s1, s2);
 	outFile << fileContent;
 	if (outFile.fail())
 	{
