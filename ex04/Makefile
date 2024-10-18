@@ -1,5 +1,5 @@
 
-NAME	:= zombies
+NAME	:= cheapSed
 
 SRC_DIR	:= src
 SRCS	:= main.cpp
