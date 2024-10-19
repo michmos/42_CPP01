@@ -16,7 +16,6 @@ public:
 	~HumanA();
 
 	void	attack() const;
-	void	setWeapon(Weapon &weapon);
 };
 
 #endif // ! HUMANA_HPP
