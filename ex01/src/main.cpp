@@ -1,5 +1,7 @@
 
 #include "../inc/ex01.hpp"
+#include <exception>
+#include <new>
 
 int	main(int argc, char *argv[])
 {
@@ -14,25 +16,28 @@ int	main(int argc, char *argv[])
 	// get num
 	try {
 		num = std::stoi(argv[1]);
+		if (num < 0) 
+			throw std::exception();
 	} catch (...) {
 		std::cerr << "Num argument wrong or too big" << std::endl;
 		return (0);
 	}
 
 	// test
-	pZombie = zombieHorde(num, argv[2]);
-	if (!pZombie) {
+	try {
+		pZombie = zombieHorde(num, argv[2]);
+	}
+	catch (std::bad_alloc) {
+		std::cerr << "Allocation failed" << std::endl;
 		return (1);
 	}
+
 
 	for (int i = 0; i < num; ++i) {
 		pZombie[i].announce();
 	}
 
 	// deallocate objects
-	for (int i = 0; i < num; ++i) {
-		pZombie[i].~Zombie();
-	}
-	operator delete (pZombie);
+	delete [] pZombie;
 	return (0);
 }
