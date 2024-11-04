@@ -2,10 +2,16 @@
 #include "../inc/Zombie.hpp"
 
 Zombie	*zombieHorde(int N, std::string name) {
-	Zombie	*pZombie = new Zombie[N];
+	// allocate memory
+	Zombie	*pZombie = static_cast<Zombie *>(operator new(sizeof(Zombie) * N, std::nothrow));
+	if (!pZombie) {
+		std::cerr << "allocation failed" << std::endl;
+		return (nullptr);
+	}
 
+	// construct objects at specified mem addresses
 	for (int i =0; i < N; ++i) {
-		pZombie[i] = Zombie(name);
+		new (&pZombie[i]) Zombie(name);
 	}
 	return (pZombie);
 }
