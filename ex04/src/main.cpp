@@ -4,6 +4,17 @@
 #include <iostream>
 #include <fstream>
 
+
+void	replaceStrings(std::string &line, const std::string &s1, const std::string &s2)
+{
+	size_t	idx = 0;
+	while ((idx = line.find(s1, idx)) != line.npos) {
+		line.erase(idx, s1.length());
+		line.insert(idx, s2);
+		idx += s2.length();
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	if (argc != 4)
@@ -31,12 +42,7 @@ int	main(int argc, char *argv[])
 	while (std::getline(infile, line)) {
 		if (s1 != s2 && !s1.empty())
 		{
-			size_t	idx = 0;
-			while ((idx = line.find(s1, idx)) != line.npos) {
-				line.erase(idx, s1.length());
-				line.insert(idx, s2);
-				idx += s2.length();
-			}
+			replaceStrings(line, s1, s2);
 		}
 		outfile << line;
 		if (!infile.eof())
